@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+</head>
+
+<body>
+  <button id="rock">Rock</button>
+  <button id="paper">Paper</button>
+  <button id="scissors">Scissors</button>
+  <div id="results"></div>
+  <div id ="tally"></div>
+</body>
 <script>
 let playerPoints = 0;
 let computerPoints = 0;
-
 function computerPlay(){
   let x = Math.floor((Math.random() * 3) + 1);
   if (x==1){
@@ -15,11 +24,9 @@ function computerPlay(){
     return "scissors";
   }
 }
-
 function playRound(playerSelection, computerSelection){
   computerSelection = computerPlay();
   playerSelection = playerSelection.toLowerCase();
-
   if (playerSelection == "paper" && computerSelection == "rock"){
      return "You win. Paper beats rock.";
   } else  if (playerSelection == "paper" && computerSelection == "scissors"){
@@ -38,29 +45,24 @@ function playRound(playerSelection, computerSelection){
      return "That is not a valid option. Choose rock,paper or scissors only";
   }
 }
-
 function game(){
  let playerSelection;
  playerSelection = prompt("Rock, paper or scissors?","");
  let game1 = playRound (playerSelection, computerPlay()); 
  console.log(game1);
  countPoints(game1);
-
  playerSelection = prompt("Rock, paper or scissors?","");
  let game2 = playRound (playerSelection, computerPlay()); 
  console.log(game2);
  countPoints(game2);
-
  playerSelection = prompt("Rock, paper or scissors?","");
  let game3 = playRound (playerSelection, computerPlay()); 
  console.log(game3);
  countPoints(game3);
-
  playerSelection = prompt("Rock, paper or scissors?","");
  let game4 = playRound (playerSelection, computerPlay()); 
  console.log(game4);
  countPoints(game4);
-
  playerSelection = prompt("Rock, paper or scissors?","");
  let game5 = playRound (playerSelection, computerPlay()); 
  console.log(game5);
@@ -70,7 +72,6 @@ function game(){
  
  return resetScores();
 }
-
 function countPoints(result){
  if (result.search("You win.") + 1){
    return playerPoints += 1; 
@@ -80,12 +81,10 @@ function countPoints(result){
    return;
  }
 };
-
 function resetScores(){
  playerPoints = 0;
  computerPoints = 0;
 }
-
 function findWinner(){
  if (playerPoints > computerPoints){
    return "You win with a total of " + playerPoints + " points";
@@ -96,6 +95,38 @@ function findWinner(){
  }
 }
 
+var buttons = document.querySelectorAll('button');
+buttons.forEach(button => button.addEventListener('click', playGame));
+
+var results = document.querySelector("#results");
+var tally= document.querySelector("#tally");
+
+function playGame(){
+ let playerSelection = this.id;
+ let game = playRound (playerSelection, computerPlay()); 
+ console.log(game);
+
+ let result = document.createElement('div');
+ result.textContent = game.toString();
+ results.appendChild(result);
+
+ countPoints(game);
+ tally.textContent =  "Player: " + playerPoints + " Computer: " + computerPoints;
+
+ if(playerPoints == 5){
+   tally.textContent = "Congratulations! You win!";
+   results.innerHTML("");
+   resetScores();
+   return; 
+ }else if(computerPoints == 5){
+   tally.textContent = "Game over. You lost.";
+   results.innerHTML = "";
+   resetScores();
+   return;
+ }
+}
+
+
+
 </script>
-</head>
 </html>
